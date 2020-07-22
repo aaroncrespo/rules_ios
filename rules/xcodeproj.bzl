@@ -273,13 +273,9 @@ $BAZEL_INSTALLER
 """.format(bazel_build_target_name = target_info.bazel_build_target_name),
             }],
         }
-        if target_info.product_type == "framework":
-            continue
 
-        scheme_action_name = "test"
-        if target_info.product_type == "application":
-            scheme_action_name = "run"
-        scheme_action_details = {"targets": [target_info.name]}
+        scheme_action_names = ["run", "test"]
+        scheme_action_details_for_test = {"targets": [target_info.name]}
 
         test_env_vars_dict = {}
 
@@ -292,20 +288,20 @@ $BAZEL_INSTALLER
             else:
                 test_env_vars_dict[k] = v
 
-        scheme_action_details["environmentVariables"] = test_env_vars_dict
+        scheme_action_details_for_test["environmentVariables"] = test_env_vars_dict
         test_commandline_args_tuple = getattr(target_info, "test_commandline_args", ())
-        scheme_action_details["commandLineArguments"] = {}
+        scheme_action_details_for_test["commandLineArguments"] = {}
         for arg in test_commandline_args_tuple:
-            scheme_action_details["commandLineArguments"][arg] = True
+            scheme_action_details_for_test["commandLineArguments"][arg] = True
         xcodeproj_schemes_by_name[target_info.name] = {
             "build": {
                 "parallelizeBuild": False,
                 "buildImplicitDependencies": False,
                 "targets": {
-                    target_info.name: [scheme_action_name],
+                    target_info.name: scheme_action_names,
                 },
             },
-            scheme_action_name: scheme_action_details,
+            "test": scheme_action_details_for_test,
         }
 
     project_file_groups = [
