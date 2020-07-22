@@ -61,5 +61,11 @@ jobs:
       - uses: actions/checkout@v1
       - name: Select Xcode 11.2
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
+      - name: Generate Xcode projects and compare against existing record
+        run: |
+          set -euo pipefail
+          bazelisk query 'kind(xcodeproj, tests/ios/xcodeproj/...)' | xargs -n 1 bazelisk run
+          bazelisk query 'attr(executable, 1, kind(genrule, tests/ios/xcodeproj/...))' | xargs -n 1 bazelisk run
+          git diff --exit-code tests/ios/xcodeproj
       - name: Run Xcode builds
         run: ./tests/ios/xcodeproj/build.sh
