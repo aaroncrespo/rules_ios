@@ -1,11 +1,11 @@
 load("//rules:xcodeproj.bzl", "xcodeproj")
 
 xcodeproj(
-    name="Single-Static-Framework-Project",
-    testonly=True,
-    bazel_path="bazelisk",
-    include_transitive_targets=True,
-    deps=[
+    name = "Single-Static-Framework-Project",
+    testonly = True,
+    bazel_path = "bazelisk",
+    include_transitive_targets = True,
+    deps = [
         "//tests/ios/frameworks/objc:ObjcFramework",
     ],
 )
