@@ -12,6 +12,10 @@ case "${PRODUCT_TYPE}" in
     com.apple.product-type.framework)
         input_options=("bazel-bin/$BAZEL_BIN_SUBDIR/${TARGET_NAME}/${FULL_PRODUCT_NAME}")
         ;;
+    com.apple.product-type.framework.static)
+	#TODO: invalid input options here, we need to find the correct input options somewhere else
+        input_options=("bazel-bin/$BAZEL_BIN_SUBDIR/${TARGET_NAME}/${FULL_PRODUCT_NAME}")
+        ;;
     com.apple.product-type.bundle.unit-test)
         input_options=("bazel-bin/$BAZEL_BIN_SUBDIR/${FULL_PRODUCT_NAME}" "bazel-bin/$BAZEL_BIN_SUBDIR/$TARGET_NAME.__internal__.__test_bundle_archive-root/$TARGET_NAME${WRAPPER_SUFFIX:-}")
         ;;
